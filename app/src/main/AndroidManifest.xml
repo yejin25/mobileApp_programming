@@ -10,16 +10,20 @@
         <activity
             android:name=".QuestionActivity"
             android:label="@string/app_name"
-            android:screenOrientation="portrait">
+            android:screenOrientation="fullSensor">
+
+        </activity>
+        <activity
+            android:name=".ResultActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="fullSensor"/>
+        <activity android:name=".LoginActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".ResultActivity"
-            android:label="@string/app_name"
-            android:screenOrientation="portrait"/>
+        <activity android:name=".AfterActivity"/>
     </application>
 
 </manifest>
