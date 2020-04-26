@@ -40,6 +40,7 @@ public class AfterActivity extends Activity implements View.OnClickListener {
 
     private void revokeAccess() {
         mAuth.getCurrentUser().delete();
+        FirebaseAuth.getInstance().signOut();
         Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
         startActivity(intent);
     }

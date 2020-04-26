@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <Button
+        android:id="@+id/btn_level"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="난이도" />
+
+    <Button
+        android:id="@+id/btn_ranking"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="랭킹" />
+
+    <ImageButton
+        android:id="@+id/btn_setting"
+        android:layout_width="50sp"
+        android:layout_height="50sp"
+        android:scaleType="fitCenter"
+        android:layout_gravity="center"
+        android:background="@android:color/transparent"
+        android:src="@drawable/btn_setting" />
+</LinearLayout>

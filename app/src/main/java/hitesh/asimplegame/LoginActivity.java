@@ -38,11 +38,7 @@ public class LoginActivity extends AppCompatActivity {
         signInButton = (SignInButton) findViewById(R.id.signInButton);
 
         mAuth = FirebaseAuth.getInstance();
-        /*if (mAuth.getCurrentUser() != null) {
-            Intent intent = new Intent(getApplication(), QuestionActivity.class);
-            startActivity(intent);
-            finish();
-        }*/
+
         // Configure Google Sign In
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
@@ -55,6 +51,12 @@ public class LoginActivity extends AppCompatActivity {
                 signIn();
             }
         });
+
+        if (mAuth.getCurrentUser() != null) {
+            Intent intent = new Intent(getApplication(), SignedActivity.class);
+            startActivity(intent);
+            finish();
+        }
     }
     // [START signin]
     private void signIn() {
@@ -88,12 +90,12 @@ public class LoginActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
-                            Snackbar.make(getWindow().getDecorView().getRootView(), "Authentication Successed.", Snackbar.LENGTH_SHORT).show();
+                            Snackbar.make(getWindow().getDecorView().getRootView(), "Authentication Successed.", Snackbar.LENGTH_INDEFINITE).show();
                             FirebaseUser user = mAuth.getCurrentUser();
                             updateUI(user);
                         } else {
                             // If sign in fails, display a message to the user.
-                            Snackbar.make(getWindow().getDecorView().getRootView(), "Authentication Failed.", Snackbar.LENGTH_SHORT).show();
+                            Snackbar.make(getWindow().getDecorView().getRootView(), "Authentication Failed.", Snackbar.LENGTH_INDEFINITE).show();
                             updateUI(null);
                         }
                     }
@@ -102,7 +104,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void updateUI(FirebaseUser user) { //update ui code here
         if (user != null) {
-            Intent intent = new Intent(this, AfterActivity.class);
+            Intent intent = new Intent(this, SignedActivity.class);
             startActivity(intent);
             finish();
         }

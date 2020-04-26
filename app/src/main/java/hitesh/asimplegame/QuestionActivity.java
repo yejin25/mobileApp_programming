@@ -50,7 +50,6 @@ public class QuestionActivity extends Activity {
         button1 = (Button) findViewById(R.id.button1);
         button2 = (Button) findViewById(R.id.button2);
         button3 = (Button) findViewById(R.id.button3);
-
         // the textview in which score will be displayed
         scored = (TextView) findViewById(R.id.score);
 
