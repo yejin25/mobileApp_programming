@@ -1,5 +1,7 @@
 package hitesh.asimplegame;
 
+
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,8 +11,6 @@ import android.widget.Button;
 import android.widget.ImageButton;
 
 import androidx.annotation.Nullable;
-
-import com.google.firebase.auth.FirebaseAuth;
 
 public class SignedActivity extends Activity {
     Button btnLevel;
@@ -29,7 +29,8 @@ public class SignedActivity extends Activity {
         btnLevel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent(getApplicationContext(), SelectLevel.class);
+                startActivity(intent);
             }
         });
 
@@ -45,7 +46,7 @@ public class SignedActivity extends Activity {
             @Override
             public void onClick(View v) {
                 Log.d("SignedActivity", "==== Setting button Clicked");
-                Intent intent = new Intent(getApplicationContext(), AfterActivity.class);
+                Intent intent = new Intent(getApplicationContext(), Settings.class);
                 startActivity(intent);
             }
         });

@@ -24,6 +24,8 @@ public class QuizDBOpenHelper extends SQLiteOpenHelper {
     private static final String KEY_OPTB = "optb"; // option b
     private static final String KEY_OPTC = "optc"; // option c
 
+    private static final int QUESTIONNUM = 20;
+
     private SQLiteDatabase database;
 
     public QuizDBOpenHelper(Context context) {
@@ -41,6 +43,26 @@ public class QuizDBOpenHelper extends SQLiteOpenHelper {
         addQuestion();
         // db.close();
     }
+//
+//    private void randomQuestion(){
+//        int ans;
+//        int A = (int)Math.random()*80+1;
+//        int B = (int)Math.random()*80+1;
+//        int C = (int)Math.random()*80+1;
+//        int D = (int)Math.random()*80+1;
+//        int randomNum = (int)Math.random()*3+1;
+//
+//        switch (randomNum){
+//            case 1:
+//                switch (randomNum){
+//                    case 1:
+//                        Question q = new Question(String.valueOf())
+//
+//                }
+//        }
+//}
+
+
 
     private void addQuestion() {
         Question q1 = new Question("5+2 = ?", "7", "8", "6", "7");
