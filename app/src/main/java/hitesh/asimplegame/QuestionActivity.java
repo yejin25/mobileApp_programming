@@ -27,13 +27,13 @@ public class QuestionActivity extends Activity {
     public static String questionActivityLevel;
 
     private List<Question> questionList;
-    private int score = 0;
+    public static int score = 0;
     private int questionID = 0;
+    private int life = 2;
 
     private Question currentQ;
-    private TextView txtQuestion, times, scored;
+    private TextView txtQuestion, times, scored, lifes;
     private Button button1, button2, button3;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +42,6 @@ public class QuestionActivity extends Activity {
 
         Intent intent = getIntent();
         String level = intent.getExtras().getString("level");
-
         QuizDBOpenHelper db = new QuizDBOpenHelper(this);  // my question bank class
 
         if(level.equals("easy")) {
@@ -67,7 +66,7 @@ public class QuestionActivity extends Activity {
         button3 = (Button) findViewById(R.id.button3);
         // the textview in which score will be displayed
         scored = (TextView) findViewById(R.id.score);
-
+        lifes = (TextView) findViewById(R.id.life);
         // the timer
         times = (TextView) findViewById(R.id.timers);
 
@@ -105,7 +104,10 @@ public class QuestionActivity extends Activity {
             }
         });
     }
+    protected void onStart(){
+        super.onStart();
 
+    }
     public void getAnswer(String AnswerString) {
         if (currentQ.getANSWER().equals(AnswerString)) {
 
@@ -113,8 +115,10 @@ public class QuestionActivity extends Activity {
             // and set the text of the score view
             score++;
             scored.setText("Score : " + score);
-        } else {
+        }
+        else{
             // if unlucky start activity and finish the game
+            if(life == 0){
             Intent intent = new Intent(QuestionActivity.this, ResultActivity.class);
 
             // passing the int value
@@ -123,7 +127,16 @@ public class QuestionActivity extends Activity {
             intent.putExtras(b); // Put your score to your next
             startActivity(intent);
             finish();
-        }
+            }
+            else{
+                life--;
+                lifes.setText("Life : "+life);
+                if(life==1){
+                    life--;
+                }
+                }
+            }
+
 
         if (questionID < 20) {
             // if questions are not over then do this
@@ -181,6 +194,7 @@ public class QuestionActivity extends Activity {
 
         questionID++;
     }
+
 
 
 }

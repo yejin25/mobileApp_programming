@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 
 public class ResultActivity extends Activity {
-
+	public static int score;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -37,14 +37,12 @@ public class ResultActivity extends Activity {
 
 		TextView textResult = (TextView) findViewById(R.id.textResult);
 		Bundle b = getIntent().getExtras();
-		int score = b.getInt("score");
-        textResult.setText("Your score is " + " " + score + ". Thanks for playing my game.");
+		score = b.getInt("score");
+        textResult.setText("Your score is " + " " + score + "."+"\n" + "Thanks for playing my game.");
 	}
 
-	public void onBackPressed() {
-		super.onBackPressed();
-		Intent intent = new Intent(this,SelectLevel.class);
-		startActivity(intent);
+	public static int getResult(){
+		return score;
 	}
 
 	/*public void onClick(View o) {

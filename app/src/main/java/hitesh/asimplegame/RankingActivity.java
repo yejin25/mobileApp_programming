@@ -6,16 +6,31 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 
-public class RankingActivity extends Activity {
-    TextView title;
+import java.util.List;
 
+public class RankingActivity extends Activity {
+
+    private List<Ranking> rankingList;
+    private int rankingID = 0;
+
+    private Ranking currentR;
+    private TextView rank;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ranking);
 
-        title = (TextView)findViewById(R.id.test);
-
-        title.setText("Ranking");
+        QuizDBOpenHelper db = new QuizDBOpenHelper(this);
+        currentR = rankingList.get(rankingID);
+        rank = (TextView) findViewById(R.id.rank1);
+        setQuestionView();
     }
+
+    private void setQuestionView() {
+        // the method which will put all things together
+        rank.setText(currentR.getSCORE());
+        rankingID++;
+    }
+
+
 }

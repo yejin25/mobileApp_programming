@@ -2,8 +2,11 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <SwitchPreference
         android:key="bgm"
-        android:title="배경음악 끄기"
-        android:summary="게임 내의 배경음악을 끄려면 체크하세요." />
+        android:title="배경음악 설정"
+        android:defaultValue="true"
+        android:summaryOn="게임 내의 배경음악을 끄려면 체크하세요."
+        android:summaryOff="게임 내의 배경음악을 키려면 체크하세요."
+        />
 
     <Preference
         android:key="resetBD"

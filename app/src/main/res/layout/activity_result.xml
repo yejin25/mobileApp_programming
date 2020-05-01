@@ -5,19 +5,24 @@
         android:layout_height="match_parent"
         android:background="#2a3f4c"
         android:orientation="vertical"
-        android:layout_centerInParent="true" 
+        android:layout_centerInParent="true"
+        android:weightSum="1"
         >
 
         <TextView
             android:id="@+id/textResult"
             android:layout_width="match_parent"
             android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_centerHorizontal="true"
             android:layout_marginTop="50dp"
             android:layout_height="wrap_content"
             android:text="Large Text"
             android:textColor="#ffffff"
             android:textSize="20sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:layout_weight="0.4"
+            />
 
         <Button
             android:id="@+id/btn_playagain"

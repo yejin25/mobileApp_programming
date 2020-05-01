@@ -3,6 +3,7 @@ package hitesh.asimplegame;
 
 
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,6 +17,7 @@ public class SignedActivity extends Activity {
     Button btnLevel;
     Button btnRanking;
     ImageButton btnSetting;
+    boolean isStart = true;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -25,6 +27,13 @@ public class SignedActivity extends Activity {
         btnLevel = (Button)findViewById(R.id.btn_level);
         btnRanking = (Button)findViewById(R.id.btn_ranking);
         btnSetting = (ImageButton)findViewById(R.id.btn_setting);
+
+//        if(isStart && SettingFragment.getBgmStatus()) {
+//            Intent bgmintent = new Intent(this, Bgm.class);
+//            bgmintent.putExtra(Bgm.MESSAGE_KEY, true);
+//            startService(bgmintent);
+//            isStart=false;
+//        }
 
         btnLevel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -51,5 +60,14 @@ public class SignedActivity extends Activity {
             }
         });
 
-    }
+
+}
+
+
+//    @Override
+//    public void onBackPressed(){
+//        super.onBackPressed();
+//        stopService(new Intent("hitesh.asimplegame.Bgm"));
+//    }
+
 }

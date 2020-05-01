@@ -1,14 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#d15400"
+    android:weightSum="1">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.4"
+        android:weightSum="1">
+    <TextView
+        android:id="@+id/message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:text="A Simple Game"
+        android:textSize="45sp"
+        android:textColor="#ffffff"
+        android:textStyle="bold"
+        />
+    </LinearLayout>
 
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_marginTop="150dp"
+    android:layout_weight="0.6"
+    android:weightSum="1"
+    >
     <Button
         android:id="@+id/btn_level"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:text="난이도" />
+        android:text="난이도"
+
+        />
 
     <Button
         android:id="@+id/btn_ranking"
@@ -23,6 +53,8 @@
         android:layout_height="50sp"
         android:scaleType="fitCenter"
         android:layout_gravity="center"
+        android:layout_marginTop="15dp"
         android:background="@android:color/transparent"
         android:src="@drawable/btn_setting" />
+</LinearLayout>
 </LinearLayout>
