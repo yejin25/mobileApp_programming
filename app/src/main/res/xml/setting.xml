@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <SwitchPreference
+        android:key="bgm"
+        android:title="배경음악 끄기"
+        android:summary="게임 내의 배경음악을 끄려면 체크하세요." />
+
+    <Preference
+        android:key="resetBD"
+        android:title="로그아웃"
+        android:summary="구글계정에서 로그아웃합니다." />
+
+    <Preference
+        android:key="revokeBD"
+        android:title="회원탈퇴"
+        android:summary="탈퇴합니다." />
+
+</PreferenceScreen>
