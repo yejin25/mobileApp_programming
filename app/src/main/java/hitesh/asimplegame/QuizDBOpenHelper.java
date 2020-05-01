@@ -8,14 +8,17 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.telephony.mbms.MbmsErrors;
+import android.util.Log;
 
 public class QuizDBOpenHelper extends SQLiteOpenHelper {
 
-    private static final int DATABASE_VERSION = 1;
+    private static int DATABASE_VERSION = 2;
     // Database Name
     private static final String DATABASE_NAME = "mathsone";
     // tasks table name
     private static final String TABLE_QUEST = "quest";
+    private static final String TABLE_HARD = "hard";
     // tasks Table Columns names
     private static final String KEY_ID = "qid";
     private static final String KEY_QUES = "question";
@@ -23,8 +26,6 @@ public class QuizDBOpenHelper extends SQLiteOpenHelper {
     private static final String KEY_OPTA = "opta"; // option a
     private static final String KEY_OPTB = "optb"; // option b
     private static final String KEY_OPTC = "optc"; // option c
-
-    private static final int QUESTIONNUM = 20;
 
     private SQLiteDatabase database;
 
@@ -34,35 +35,296 @@ public class QuizDBOpenHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
+        Log.d("TAG", "Called!");
+
         database = db;
         String sql = "CREATE TABLE IF NOT EXISTS " + TABLE_QUEST + " ( "
                 + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + KEY_QUES
                 + " TEXT, " + KEY_ANSWER + " TEXT, " + KEY_OPTA + " TEXT, "
                 + KEY_OPTB + " TEXT, " + KEY_OPTC + " TEXT)";
         db.execSQL(sql);
+        String sql2 = "CREATE TABLE IF NOT EXISTS " + TABLE_HARD + " ( "
+                + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + KEY_QUES
+                + " TEXT, " + KEY_ANSWER + " TEXT, " + KEY_OPTA + " TEXT, "
+                + KEY_OPTB + " TEXT, " + KEY_OPTC + " TEXT)";
+        db.execSQL(sql2);
         addQuestion();
-        // db.close();
+        addHardQuestion();
+
     }
-//
-//    private void randomQuestion(){
-//        int ans;
-//        int A = (int)Math.random()*80+1;
-//        int B = (int)Math.random()*80+1;
-//        int C = (int)Math.random()*80+1;
-//        int D = (int)Math.random()*80+1;
-//        int randomNum = (int)Math.random()*3+1;
-//
-//        switch (randomNum){
-//            case 1:
-//                switch (randomNum){
-//                    case 1:
-//                        Question q = new Question(String.valueOf())
-//
-//                }
-//        }
-//}
+
+    private void HardQuestion(){
+        for(int i=0; i< 20; i++) {
+            int ans;
+            int A = (int) Math.random() * 20 + 1;
+           int B = (int) Math.random() * 20 + 1;
+            int C = (int) Math.random() * 20 + 1;
+            int D = (int) Math.random() * 20 + 1;
+            int randomNum = (int) Math.random() * 2 + 1;
+            int randomAns = (int) Math.random() * 3 + 1;
+            int optA = 0;
+            int optB = 0;
+            int optC = 0;
+            Question q;
+
+            String stringQ;
+            switch (randomNum) {
+                case 1: //연산 2개
+                    switch (randomNum) {
+                        case 1:
+                            stringQ = (String.valueOf(A) + "x" + String.valueOf(B) + "+" + String.valueOf(C) + "= ?");
+                            ans = A * B + C;
+                            switch (randomAns) {
+                                case 1:
+                                    optA = ans;
+                                    optB = A * B + C - 2;
+                                    optC = A * B + C + 6;
+                                    break;
+                                case 2:
+                                    optA = A * B + C + 7;
+                                    optB = ans;
+                                    optC = A * B + C - 1;
+                                    break;
+                                case 3:
+                                    optA = A * B + C + 1;
+                                    optB = A * B + C - 1;
+                                    optC = ans;
+                                    break;
+
+                            }
+                            q = new Question(stringQ, String.valueOf(optA), String.valueOf(optB), String.valueOf(optC), String.valueOf(ans));
+                            addHardQuestion(q);
+                            Log.d("TAG", stringQ);
+                            break;
+                        case 2:
+                            stringQ = (String.valueOf(A) + "+" + String.valueOf(B) + "÷" + String.valueOf(C) + "= ?");
+                            ans = A + B / C;
+                            switch (randomAns) {
+                                case 1:
+                                    optA = ans;
+                                    optB = A + B / C - 2;
+                                    optC = A + B / C + 6;
+                                    break;
+                                case 2:
+                                    optA = A + B / C - 4;
+                                    optB = ans;
+                                    optC = A + B / C + 3;
+                                    break;
+                                case 3:
+                                    optA = A + B / C + 1;
+                                    optB = A + B / C - 1;
+                                    optC = ans;
+                                    break;
+
+                            }
+                            q = new Question(stringQ, String.valueOf(optA), String.valueOf(optB), String.valueOf(optC), String.valueOf(ans));
+                            addHardQuestion(q);
+                            Log.d("TAG", stringQ);
+                            break;
+                    }
+                case 2://연산 3개
+                    switch (randomNum) {
+                        case 1:
+                            stringQ = (String.valueOf(A) + "x" + "(" + String.valueOf(B) + "+" + String.valueOf(C) + ")" + "-" + String.valueOf(D) + "= ?");
+                            ans = A * (B + C) - D;
+                            switch (randomAns) {
+                                case 1:
+                                    optA = ans;
+                                    optB = A * (B + C) - D + 1;
+                                    optC = A * (B + C) - D - 1;
+                                    break;
+                                case 2:
+                                    optA = A * (B + C) - D - 2;
+                                    optB = ans;
+                                    optC = A * (B + C) - D + 3;
+                                    break;
+                                case 3:
+                                    optA = A * (B + C) - D - 4;
+                                    optB = A * (B + C) - D + 8;
+                                    optC = ans;
+                                    break;
+
+                            }
+                            q = new Question(stringQ, String.valueOf(optA), String.valueOf(optB), String.valueOf(optC), String.valueOf(ans));
+                            addHardQuestion(q);
+                            Log.d("TAG", stringQ);
+                            break;
+                        case 2:
+                            stringQ = (String.valueOf(A) + "+" + String.valueOf(B) + "÷" + String.valueOf(C) + "-" + String.valueOf(D) + "= ?");
+                            ans = A + B / C - D;
+                            switch (randomAns) {
+                                case 1:
+                                    optA = ans;
+                                    optB = A + B / C - D - 1;
+                                    optC = A + B / C - D + 1;
+                                    break;
+                                case 2:
+                                    optA = A + B / C - D - 2;
+                                    optB = ans;
+                                    optC = A + B / C - D + 3;
+                                    break;
+                                case 3:
+                                    optA = A + B / C - D + 5;
+                                    optB = A + B / C - D - 4;
+                                    optC = ans;
+                                    break;
+                            }
+                            q = new Question(stringQ, String.valueOf(optA), String.valueOf(optB), String.valueOf(optC), String.valueOf(ans));
+                            addHardQuestion(q);
+                            Log.d("TAG", stringQ);
+                            break;
+
+                    }
+
+                    break;
+
+            }
+        }
+
+                }
 
 
+    private void addHardQuestion() {
+        for (int i = 0; i < 21; i++) {
+            int questionNumA = (int) (Math.random() * 10+1);
+            int questionNumB = (int) (Math.random() * 10+1);
+            int questionNumC = (int) (Math.random() * 10+1);
+
+            int questionAnswer = 0;
+            int questionOption = (int) (Math.random() * 4);
+
+            int optA = 0, optB = 0, optC = 0;
+            int optSelectionRandom = 0;
+
+            String questionString;
+            Question question;
+
+            switch (questionOption) { // +-*/
+                case 0: // +
+                    questionAnswer = questionNumA + questionNumB * questionNumC;
+                    optSelectionRandom = (int) (Math.random() * 3);
+
+                    questionString = (String.valueOf(questionNumA) + " + " + String.valueOf(questionNumB) + "x" + String.valueOf(questionNumC)+ " =?");
+
+                    switch (optSelectionRandom) {
+                        case 0:
+                            optA = questionNumA + questionNumB * questionNumC;
+                            optB = (int) (Math.random() * 10);
+                            optC = (int) (Math.random() * 10);
+                            break;
+                        case 1:
+                            optA = (int) (Math.random() * 10);
+                            optB = questionNumA + questionNumB * questionNumC;
+                            optC = (int) (Math.random() * 10);
+                            break;
+                        case 2:
+                            optA = (int) (Math.random() * 10);
+                            optB = (int) (Math.random() * 10);
+                            optC = questionNumA + questionNumB * questionNumC;
+                            break;
+                        default:
+                            break;
+                    }
+
+                    question = new Question(questionString, String.valueOf(optA), String.valueOf(optB), String.valueOf(optC), String.valueOf(questionAnswer));
+                    addHardQuestion(question);
+
+                    break;
+                case 1: // -
+
+                    questionAnswer = questionNumA - questionNumB / questionNumC;
+                    optSelectionRandom = (int) (Math.random() * 3);
+
+                    questionString = (String.valueOf(questionNumA) + " - " + String.valueOf(questionNumB) + "÷ "+String.valueOf(questionNumC)+ " =?");
+
+                    switch (optSelectionRandom) {
+                        case 0:
+                            optA = questionNumA - questionNumB / questionNumC;
+                            optB = (int) (Math.random() * 10);
+                            optC = (int) (Math.random() * 10);
+                            break;
+                        case 1:
+                            optA = (int) (Math.random() * 10);
+                            optB = questionNumA - questionNumB / questionNumC;
+                            optC = (int) (Math.random() * 10);
+                            break;
+                        case 2:
+                            optA = (int) (Math.random() * 10);
+                            optB = (int) (Math.random() * 10);
+                            optC = questionNumA - questionNumB /questionNumC;
+                            break;
+                        default:
+                            break;
+                    }
+
+                    question = new Question(questionString, String.valueOf(optA), String.valueOf(optB), String.valueOf(optC), String.valueOf(questionAnswer));
+                    addHardQuestion(question);
+
+                    break;
+                case 2: // *
+                    questionAnswer = questionNumA * questionNumB / questionNumC;
+                    optSelectionRandom = (int) (Math.random() * 3);
+
+                    questionString = (String.valueOf(questionNumA) + " * " + String.valueOf(questionNumB) + "÷ "+ String.valueOf(questionNumC) + " =?");
+
+                    switch (optSelectionRandom) {
+                        case 0:
+                            optA = questionNumA * questionNumB / questionNumC;
+                            optB = (int) (Math.random() * 10);
+                            optC = (int) (Math.random() * 10);
+                            break;
+                        case 1:
+                            optA = (int) (Math.random() * 10);
+                            optB = questionNumA * questionNumB /questionNumC;
+                            optC = (int) (Math.random() * 10);
+                            break;
+                        case 2:
+                            optA = (int) (Math.random() * 10);
+                            optB = (int) (Math.random() * 10);
+                            optC = questionNumA * questionNumB /questionNumC;
+                            break;
+                        default:
+                            break;
+                    }
+
+                    question = new Question(questionString, String.valueOf(optA), String.valueOf(optB), String.valueOf(optC), String.valueOf(questionAnswer));
+                    addHardQuestion(question);
+
+                    break;
+                case 3: // /
+                    questionAnswer = questionNumA - questionNumB + questionNumC;
+                    optSelectionRandom = (int) (Math.random() * 3);
+
+                    questionString = (String.valueOf(questionNumA) + " - " + String.valueOf(questionNumB) + "+" + String.valueOf(questionNumC)+" =?");
+
+                    switch (optSelectionRandom) {
+                        case 0:
+                            optA = questionNumA - questionNumB + questionNumC;
+                            optB = (int) (Math.random() * 10);
+                            optC = (int) (Math.random() * 10);
+                            break;
+                        case 1:
+                            optA = (int) (Math.random() * 10);
+                            optB = questionNumA - questionNumB + questionNumC;
+                            optC = (int) (Math.random() * 10);
+                            break;
+                        case 2:
+                            optA = (int) (Math.random() * 10);
+                            optB = (int) (Math.random() * 10);
+                            optC = questionNumA - questionNumB + questionNumC;
+                            break;
+                        default:
+                            break;
+                    }
+
+                    question = new Question(questionString, String.valueOf(optA), String.valueOf(optB), String.valueOf(optC), String.valueOf(questionAnswer));
+                    addHardQuestion(question);
+
+                    break;
+            }
+
+        }
+    }
 
     private void addQuestion() {
         Question q1 = new Question("5+2 = ?", "7", "8", "6", "7");
@@ -114,8 +376,19 @@ public class QuizDBOpenHelper extends SQLiteOpenHelper {
         // Drop older table if existed
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_QUEST);
         // Create tables again
+        db.execSQL("DROP TABLE IF EXISTS "+ TABLE_HARD);
         onCreate(db);
     }
+
+    @Override
+    public void onDowngrade(SQLiteDatabase db, int newV, int oldV) {
+        // Drop older table if existed
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_QUEST);
+        // Create tables again
+        db.execSQL("DROP TABLE IF EXISTS "+ TABLE_HARD);
+        onCreate(db);
+    }
+
 
     // Adding new question
     public void addQuestion(Question quest) {
@@ -129,6 +402,18 @@ public class QuizDBOpenHelper extends SQLiteOpenHelper {
 
         // Inserting Row
         database.insert(TABLE_QUEST, null, values);
+    }
+
+    public void addHardQuestion(Question hard) {
+        ContentValues values = new ContentValues();
+        values.put(KEY_QUES, hard.getQUESTION());
+        values.put(KEY_ANSWER, hard.getANSWER());
+        values.put(KEY_OPTA, hard.getOPTA());
+        values.put(KEY_OPTB, hard.getOPTB());
+        values.put(KEY_OPTC, hard.getOPTC());
+
+        // Inserting Row
+        database.insert(TABLE_HARD, null, values);
     }
 
     public List<Question> getAllQuestions() {
@@ -153,5 +438,62 @@ public class QuizDBOpenHelper extends SQLiteOpenHelper {
         }
         // return quest list
         return quesList;
+    }
+
+    public void oState() {
+        List<hitesh.asimplegame.Question> quesList = new ArrayList<hitesh.asimplegame.Question>();
+        // Select All Query
+        String selectQuery = "SELECT  * FROM " + TABLE_HARD;
+        database = this.getReadableDatabase();
+        Cursor cursor = database.rawQuery(selectQuery, null);
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            do {
+                hitesh.asimplegame.Question hard = new hitesh.asimplegame.Question();
+                hard.setID(cursor.getInt(0));
+                hard.setQUESTION(cursor.getString(1));
+                hard.setANSWER(cursor.getString(2));
+                hard.setOPTA(cursor.getString(3));
+                hard.setOPTB(cursor.getString(4));
+                hard.setOPTC(cursor.getString(5));
+
+                quesList.add(hard);
+            } while (cursor.moveToNext());
+        }
+        // return quest list
+        //return quesList;
+    }
+
+
+    public List<Question> getAllHardQuestions() {
+        List<Question> quesList = new ArrayList<Question>();
+        // Select All Query
+        String selectQuery = "SELECT  * FROM " + TABLE_HARD;
+        database = this.getReadableDatabase();
+        Cursor cursor = database.rawQuery(selectQuery, null);
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            do {
+                Question quest = new Question();
+                quest.setID(cursor.getInt(0));
+                quest.setQUESTION(cursor.getString(1));
+                quest.setANSWER(cursor.getString(2));
+                quest.setOPTA(cursor.getString(3));
+                quest.setOPTB(cursor.getString(4));
+                quest.setOPTC(cursor.getString(5));
+
+                quesList.add(quest);
+            } while (cursor.moveToNext());
+        }
+        // return quest list
+        return quesList;
+    }
+
+    public static void setDatabaseRandom() {
+        if (DATABASE_VERSION == 1) {
+            DATABASE_VERSION = 2;
+        } else {
+            DATABASE_VERSION = 1;
+        }
     }
 }

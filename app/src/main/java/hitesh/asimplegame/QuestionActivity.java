@@ -24,6 +24,8 @@ import android.widget.TextView;
 public class QuestionActivity extends Activity {
     private static final String TAG = QuestionActivity.class.getSimpleName();
 
+    public static String questionActivityLevel;
+
     private List<Question> questionList;
     private int score = 0;
     private int questionID = 0;
@@ -38,8 +40,21 @@ public class QuestionActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Intent intent = getIntent();
+        String level = intent.getExtras().getString("level");
+
         QuizDBOpenHelper db = new QuizDBOpenHelper(this);  // my question bank class
-        questionList = db.getAllQuestions();  // this will fetch all quetonall questions
+
+        if(level.equals("easy")) {
+            questionActivityLevel = "easy";
+            Log.d("TAG", "Easy Selection");
+            questionList = db.getAllQuestions();  // this will fetch all quetonall questions
+        } else {
+            questionActivityLevel = "hard";
+            Log.d("TAG", "Hard Selection");
+            questionList = db.getAllHardQuestions();
+        }
+
         currentQ = questionList.get(questionID); // the current question
 
         txtQuestion = (TextView) findViewById(R.id.txtQuestion);
