@@ -27,7 +27,6 @@ public class SettingFragment extends PreferenceFragment {
     private Preference btnLogout, btnRevoke;
 
     private static boolean isBtnBGMStatus = false;
-    private static boolean isFirstRun = true;
 
     public SettingFragment() {
 
@@ -43,16 +42,6 @@ public class SettingFragment extends PreferenceFragment {
         btnRevoke = (Preference)findPreference("revokeBD");
 
         final Intent bgmIntent = new Intent(getActivity(), Bgm.class);
-
-        if (isFirstRun) {
-            if (switchPreference.isChecked()) {
-                bgmIntent.putExtra(Bgm.MESSAGE_KEY, true);
-                getActivity().startService(bgmIntent);
-                Bgm.setIsStarted(true);
-            }
-            isFirstRun = false;
-
-        }
 
         btnLogout.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override

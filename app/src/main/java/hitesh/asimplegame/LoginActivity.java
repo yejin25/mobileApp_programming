@@ -3,9 +3,14 @@ package hitesh.asimplegame;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.Preference;
 import android.preference.PreferenceManager;
+import android.preference.SwitchPreference;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -29,8 +34,9 @@ public class LoginActivity extends AppCompatActivity {
     // private FirebaseAuth mAuth = null;
     //private GoogleSignInClient LoginData.mGoogleSignInClient;
     private static final int RC_SIGN_IN = 9001;
-    private SignInButton signInButton;
+    private static boolean isFirstRun = true;
 
+    private SignInButton signInButton;
 
 
     @Override
@@ -42,7 +48,19 @@ public class LoginActivity extends AppCompatActivity {
 
         LoginData.firebaseAuth = FirebaseAuth.getInstance();
 
-//        mAuth = FirebaseAuth.getInstance();
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        if (sharedPreferences.getBoolean("bgm", true)) {
+            final Intent bgmIntent = new Intent(getApplication(), Bgm.class);
+
+            if (isFirstRun) {
+                bgmIntent.putExtra(Bgm.MESSAGE_KEY, true);
+                startService(bgmIntent);
+                Bgm.setIsStarted(true);
+                isFirstRun = false;
+            }
+        } else {
+            isFirstRun = false;
+        }
 
         // Configure Google Sign In
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
