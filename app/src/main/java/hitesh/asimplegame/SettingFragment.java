@@ -42,34 +42,17 @@ public class SettingFragment extends PreferenceFragment {
         btnLogout = (Preference)findPreference("resetBD");
         btnRevoke = (Preference)findPreference("revokeBD");
 
-//        switchPreference.setChecked(true);
         final Intent bgmIntent = new Intent(getActivity(), Bgm.class);
-        Log.d("SettingFragment", String.valueOf(isFirstRun));
 
         if (isFirstRun) {
             if (switchPreference.isChecked()) {
                 bgmIntent.putExtra(Bgm.MESSAGE_KEY, true);
                 getActivity().startService(bgmIntent);
-            } else {
-                bgmIntent.putExtra(Bgm.MESSAGE_KEY, false);
-                getActivity().startService(bgmIntent);
+                Bgm.setIsStarted(true);
             }
-
             isFirstRun = false;
+
         }
-//        switchPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-//            @Override
-//            public boolean onPreferenceClick(Preference preference) {
-//                if (switchPreference.isChecked()) {
-//                bgmIntent.putExtra(Bgm.MESSAGE_KEY, false);
-//                getActivity().startService(bgmIntent);
-//           } else {
-//                    bgmIntent.putExtra(Bgm.MESSAGE_KEY, true);
-//                    getActivity().startService(bgmIntent);
-//                }
-//                return false;
-//            }
-//        });
 
         btnLogout.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
@@ -97,22 +80,20 @@ public class SettingFragment extends PreferenceFragment {
             }
         });
 
-//        switchPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-//            @Override
-//            public boolean onPreferenceClick(Preference preference) {
-//                if (switchPreference.isChecked()) {
-//                    Log.d("SettingFragment", "----- 1 Called!");
-//                    bgmIntent.putExtra(Bgm.MESSAGE_KEY, true);
-//                    getActivity().startService(bgmIntent);
-//                    return true;
-//                } else {
-//                    Log.d("SettingFragment", "----- 2 Called!");
-//                    bgmIntent.putExtra(Bgm.MESSAGE_KEY, false);
-//                    getActivity().startService(bgmIntent);
-//                    return false;
-//                }
-//            }
-//        });
+        switchPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                if (switchPreference.isChecked()) {
+                    bgmIntent.putExtra(Bgm.MESSAGE_KEY, true);
+                    getActivity().startService(bgmIntent);
+                    return false;
+                } else {
+                    bgmIntent.putExtra(Bgm.MESSAGE_KEY, false);
+                    getActivity().startService(bgmIntent);
+                    return true;
+                }
+            }
+        });
 
         pref = PreferenceManager.getDefaultSharedPreferences(getActivity());
     }

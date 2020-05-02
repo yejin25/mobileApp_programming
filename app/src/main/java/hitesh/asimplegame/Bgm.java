@@ -29,31 +29,38 @@ public class Bgm extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         boolean isMessage = intent.getExtras().getBoolean(Bgm.MESSAGE_KEY);
 
-        if (!isStarted && isMessage) { // not start and start bgm
+        if (isStarted && isMessage) {
             mediaPlayer = MediaPlayer.create(this, R.raw.default_bgm);
+            mediaPlayer.setLooping(true);
             mediaPlayer.start();
 
-            isStarted = true;
-        } else if (isStarted && isMessage) {
-            isStarted = false;
-            Log.d("TAG", "Called");
-        } else {
-            mediaPlayer.stop();
-            mediaPlayer.release();
         }
 
+        if (!isStarted && isMessage) {
+            try {
+                mediaPlayer.isPlaying();
+            } catch (NullPointerException e) {
+                e.printStackTrace();
+                mediaPlayer = MediaPlayer.create(this, R.raw.default_bgm);
+                mediaPlayer.setLooping(true);
+                mediaPlayer.start();
+            }
+        }
 
-//      if(isMessage) {
-//            mediaPlayer = MediaPlayer.create(this, R.raw.default_bgm);
-//            mediaPlayer.setLooping(true);
-//            mediaPlayer.start();
-//        } else {
-//            mediaPlayer.stop();
-//            mediaPlayer.release();
-//        }
-//
-//
-//        return START_NOT_STICKY;
+        if (isStarted && !isMessage || !isStarted && !isMessage) {
+            try {
+                mediaPlayer.stop();
+                mediaPlayer.release();
+            } catch (NullPointerException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return START_NOT_STICKY;
+    }
+
+    public static void setIsStarted(boolean status) {
+        isStarted = status;
     }
 
 
