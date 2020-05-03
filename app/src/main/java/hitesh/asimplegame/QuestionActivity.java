@@ -36,6 +36,7 @@ public class QuestionActivity extends Activity {
     private Question currentQ;
     private TextView txtQuestion, times, scored, lifes;
     private Button button1, button2, button3;
+    private Button buttonpass;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +57,7 @@ public class QuestionActivity extends Activity {
             questionList = db.getAllHardQuestions();
         }
         long seed = System.nanoTime();
-        Collections.shuffle(questionList, new Random(seed));    //순서 랜덤
+        Collections.shuffle(questionList, new Random(seed));    //순서 랜
         score = 0;
         currentQ = questionList.get(questionID); // the current question
 
@@ -68,6 +69,7 @@ public class QuestionActivity extends Activity {
         button1 = (Button) findViewById(R.id.button1);
         button2 = (Button) findViewById(R.id.button2);
         button3 = (Button) findViewById(R.id.button3);
+        buttonpass = (Button) findViewById(R.id.buttonpass);
         // the textview in which score will be displayed
         scored = (TextView) findViewById(R.id.score);
         lifes = (TextView) findViewById(R.id.life);
@@ -107,6 +109,18 @@ public class QuestionActivity extends Activity {
                 getAnswer(button3.getText().toString());
             }
         });
+
+        buttonpass.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {                //Pass Item Button
+                //Plus score
+                scored.setText("Score : " + score);
+                currentQ = questionList.get(questionID);        //The selection changes when you press the button.
+                setQuestionView();
+            }
+        });
+
+
     }
     protected void onStart(){
         super.onStart();
