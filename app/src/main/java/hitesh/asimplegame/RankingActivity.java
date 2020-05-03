@@ -1,36 +1,45 @@
 package hitesh.asimplegame;
 
-import android.app.Activity;
 import android.os.Bundle;
-import android.widget.TextView;
+import android.view.KeyEvent;
+import android.webkit.WebChromeClient;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
-import java.util.List;
+public class RankingActivity extends AppCompatActivity {
+    private WebView webView;
+    private static String url = "https://moapp-a4c5c.firebaseapp.com/";
 
-public class RankingActivity extends Activity {
-
-    private List<Ranking> rankingList;
-    private int rankingID = 0;
-
-    private Ranking currentR;
-    private TextView rank;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ranking);
 
-        QuizDBOpenHelper db = new QuizDBOpenHelper(this);
-        currentR = rankingList.get(rankingID);
-        rank = (TextView) findViewById(R.id.rank1);
-        setQuestionView();
+        webView = (WebView)findViewById(R.id.ranking_webview);
+        webView.getSettings().setJavaScriptEnabled(true);
+        webView.loadUrl(url);
+        webView.setWebChromeClient(new WebChromeClient());
+        webView.setWebViewClient(new WebViewClientClass());
     }
 
-    private void setQuestionView() {
-        // the method which will put all things together
-        rank.setText(currentR.getSCORE());
-        rankingID++;
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if ((keyCode == KeyEvent.KEYCODE_BACK) && webView.canGoBack()) {
+            webView.goBack();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
+    private class WebViewClientClass extends WebViewClient {
+        @Override
+        public boolean shouldOverrideUrlLoading(WebView view, String url) {
+            view.loadUrl(url);
+            return true;
+        }
+    }
 
 }
