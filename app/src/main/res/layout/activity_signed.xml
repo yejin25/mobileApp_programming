@@ -46,6 +46,12 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:text="랭킹" />
+    <Button
+        android:id="@+id/btn_mypage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="마이 페이지" />
 
     <ImageButton
         android:id="@+id/btn_setting"

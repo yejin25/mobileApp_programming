@@ -440,31 +440,6 @@ public class QuizDBOpenHelper extends SQLiteOpenHelper {
         return quesList;
     }
 
-    public void oState() {
-        List<hitesh.asimplegame.Question> quesList = new ArrayList<hitesh.asimplegame.Question>();
-        // Select All Query
-        String selectQuery = "SELECT  * FROM " + TABLE_HARD;
-        database = this.getReadableDatabase();
-        Cursor cursor = database.rawQuery(selectQuery, null);
-        // looping through all rows and adding to list
-        if (cursor.moveToFirst()) {
-            do {
-                hitesh.asimplegame.Question hard = new hitesh.asimplegame.Question();
-                hard.setID(cursor.getInt(0));
-                hard.setQUESTION(cursor.getString(1));
-                hard.setANSWER(cursor.getString(2));
-                hard.setOPTA(cursor.getString(3));
-                hard.setOPTB(cursor.getString(4));
-                hard.setOPTC(cursor.getString(5));
-
-                quesList.add(hard);
-            } while (cursor.moveToNext());
-        }
-        // return quest list
-        //return quesList;
-    }
-
-
     public List<Question> getAllHardQuestions() {
         List<Question> quesList = new ArrayList<Question>();
         // Select All Query

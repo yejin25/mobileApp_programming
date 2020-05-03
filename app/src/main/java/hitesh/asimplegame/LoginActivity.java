@@ -95,6 +95,7 @@ public class LoginActivity extends AppCompatActivity {
         // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
         if (requestCode == RC_SIGN_IN) {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+            //handleSignInResult(task);
             try {
                 // Google Sign In was successful, authenticate with Firebase
                 GoogleSignInAccount account = task.getResult(ApiException.class);
@@ -125,6 +126,8 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 });
     }
+
+//    private handleSignInResult(Task<GoogleSignInAccount> completedTask)
 
     private void updateUI(FirebaseUser user) { //update ui code here
         if (user != null) {

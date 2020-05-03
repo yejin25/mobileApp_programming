@@ -3,13 +3,13 @@ package hitesh.asimplegame;
 
 
 import android.app.Activity;
-import android.app.ActivityManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 
@@ -17,16 +17,24 @@ public class SignedActivity extends Activity {
     Button btnLevel;
     Button btnRanking;
     ImageButton btnSetting;
+    Button btnMyPage;
     boolean isStart = true;
+    private static String userName;
+    private static String userID;
+    TextView txtResult;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signed);
 
+        userName = LoginData.firebaseAuth.getCurrentUser().getDisplayName();
+        userID = LoginData.firebaseAuth.getCurrentUser().getEmail();
+
         btnLevel = (Button)findViewById(R.id.btn_level);
         btnRanking = (Button)findViewById(R.id.btn_ranking);
         btnSetting = (ImageButton)findViewById(R.id.btn_setting);
+        btnMyPage = (Button)findViewById(R.id.btn_mypage);
 
 //        if(isStart && SettingFragment.getBgmStatus()) {
 //            Intent bgmintent = new Intent(this, Bgm.class);
@@ -60,8 +68,25 @@ public class SignedActivity extends Activity {
             }
         });
 
+        btnMyPage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("SignedActivity", "==== mypage button Clicked");
+                Intent intent = new Intent(getApplicationContext(), MyPageActivity.class);
+                startActivity(intent);
+            }
+        });
+
 
 }
+
+    public static String getUserName(){
+        return userName;
+    }
+
+    public static  String getUserID(){
+        return userID;
+    }
 
 
 //    @Override

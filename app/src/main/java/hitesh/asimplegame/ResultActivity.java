@@ -1,16 +1,31 @@
 package hitesh.asimplegame;
 
 import android.app.Activity;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.os.Bundle;
 
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.ArrayList;
 
 public class ResultActivity extends Activity {
 	public static int score;
+	private FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+	private DatabaseReference databaseReference = firebaseDatabase.getReference();
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -35,21 +50,16 @@ public class ResultActivity extends Activity {
 			}
 		});
 
+
 		TextView textResult = (TextView) findViewById(R.id.textResult);
 		Bundle b = getIntent().getExtras();
 		score = b.getInt("score");
         textResult.setText("Your score is " + " " + score + "."+"\n" + "Thanks for playing my game.");
+
+		Integer intUnixTime = (int) System.currentTimeMillis();
+		FirebaseData firebaseData = new FirebaseData(LoginData.firebaseAuth.getCurrentUser().getEmail(), LoginData.firebaseAuth.getCurrentUser().getDisplayName(), String.valueOf(score));
+		databaseReference.child(String.valueOf(QuestionActivity.questionActivityLevel)).child(String.valueOf(intUnixTime)).push().setValue(firebaseData);
 	}
 
-	public static int getResult(){
-		return score;
-	}
-
-	/*public void onClick(View o) {
-		QuizDBOpenHelper.setDatabaseRandom();
-		Intent intent = new Intent(this, QuestionActivity.class);
-		intent.putExtra("level", "easy");
-		startActivity(intent);
-	}*/
 
 }
