@@ -23,6 +23,7 @@ import java.util.ArrayList;
 
 public class ResultActivity extends Activity {
 	public static int score;
+	private static String scoreValue;
 	private FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
 	private DatabaseReference databaseReference = firebaseDatabase.getReference();
 
@@ -32,6 +33,7 @@ public class ResultActivity extends Activity {
 		setContentView(R.layout.activity_result);
 
 		Button btnRestart = (Button)findViewById(R.id.btn_playagain);
+		Button btnMain = (Button)findViewById(R.id.btn_mainbutton);
 
 		btnRestart.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -49,16 +51,43 @@ public class ResultActivity extends Activity {
 				}
 			}
 		});
+		btnMain.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if (QuestionActivity.questionActivityLevel.equals("easy")) {
+					Intent intent = new Intent(getApplicationContext(), SignedActivity.class);
+					startActivity(intent);
+				} else if (QuestionActivity.questionActivityLevel.equals("hard")) {
+					Intent intent = new Intent(getApplicationContext(), SignedActivity.class);
+					startActivity(intent);
+				}
+			}
+		});
 
 
 		TextView textResult = (TextView) findViewById(R.id.textResult);
 		Bundle b = getIntent().getExtras();
 		score = b.getInt("score");
-        textResult.setText("Your score is " + " " + score + "."+"\n" + "Thanks for playing my game.");
+		if (b.getInt("score") < 10) {
+			scoreValue = "0".concat(String.valueOf(b.getInt("score")));
+			System.out.println(scoreValue);
+		} else {
+			scoreValue = String.valueOf(b.getInt("score"));
+			System.out.println(scoreValue);
+		}
+		textResult.setText("Your score is " + " " + score + "."+"\n" + "Thanks for playing my game.");
 
 		Integer intUnixTime = (int) System.currentTimeMillis();
-		FirebaseData firebaseData = new FirebaseData(LoginData.firebaseAuth.getCurrentUser().getEmail(), LoginData.firebaseAuth.getCurrentUser().getDisplayName(), String.valueOf(score));
-		databaseReference.child(String.valueOf(QuestionActivity.questionActivityLevel)).child(String.valueOf(intUnixTime)).push().setValue(firebaseData);
+		FirebaseData firebaseData = new FirebaseData(LoginData.firebaseAuth.getCurrentUser().getEmail(), LoginData.firebaseAuth.getCurrentUser().getDisplayName(), scoreValue);
+		databaseReference.child(String.valueOf(QuestionActivity.questionActivityLevel)).child(String.valueOf(intUnixTime)).setValue(firebaseData);
+
+
+		//		score = b.getInt("score");
+//        textResult.setText("Your score is " + " " + score + "."+"\n" + "Thanks for playing my game.");
+//
+//		Integer intUnixTime = (int) System.currentTimeMillis();
+//		FirebaseData firebaseData = new FirebaseData(LoginData.firebaseAuth.getCurrentUser().getEmail(), LoginData.firebaseAuth.getCurrentUser().getDisplayName(), String.valueOf(score));
+//		databaseReference.child(String.valueOf(QuestionActivity.questionActivityLevel)).child(String.valueOf(intUnixTime)).setValue(firebaseData);
 	}
 
 

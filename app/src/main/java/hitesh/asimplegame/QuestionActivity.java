@@ -5,7 +5,9 @@ package hitesh.asimplegame;
  */
 
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 import android.annotation.SuppressLint;
@@ -27,7 +29,7 @@ public class QuestionActivity extends Activity {
     public static String questionActivityLevel;
 
     private List<Question> questionList;
-    public static int score = 0;
+    public static int score;
     private int questionID = 0;
     private int life = 2;
 
@@ -53,7 +55,9 @@ public class QuestionActivity extends Activity {
             Log.d("TAG", "Hard Selection");
             questionList = db.getAllHardQuestions();
         }
-
+        long seed = System.nanoTime();
+        Collections.shuffle(questionList, new Random(seed));    //순서 랜덤
+        score = 0;
         currentQ = questionList.get(questionID); // the current question
 
         txtQuestion = (TextView) findViewById(R.id.txtQuestion);
