@@ -26,8 +26,18 @@ public class InGameBack extends Activity {
         btn_yes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), SignedActivity.class);
-                startActivity(intent);
+                Intent intent = new Intent(getApplicationContext(), QuestionActivity.class);
+                Intent levelIntent = getIntent();
+                String level = levelIntent.getExtras().getString("level");
+                if(level == "easy"){
+                    intent.putExtra("level", level);
+                    startActivity(intent);
+                }
+                else{
+                        intent.putExtra("level", level);
+                        startActivity(intent);
+                }
+
             }
         });
 

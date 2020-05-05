@@ -33,11 +33,11 @@ public class QuestionActivity extends Activity {
     public static int score;
     private int questionID = 0;
     private int life = 2;
-
+    public String level;
     private Question currentQ;
     private TextView txtQuestion, times, scored, lifes;
     private Button button1, button2, button3;
-    private Button buttonpass;
+    private Button buttonpass,buttonRetry;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +45,7 @@ public class QuestionActivity extends Activity {
         setContentView(R.layout.activity_main);
 
         Intent intent = getIntent();
-        String level = intent.getExtras().getString("level");
+        level = intent.getExtras().getString("level");
         QuizDBOpenHelper db = new QuizDBOpenHelper(this);  // my question bank class
 
         if(level.equals("easy")) {
@@ -71,6 +71,7 @@ public class QuestionActivity extends Activity {
         button2 = (Button) findViewById(R.id.button2);
         button3 = (Button) findViewById(R.id.button3);
         buttonpass = (Button) findViewById(R.id.buttonpass);
+        buttonRetry = (Button) findViewById(R.id.btnretry);
         // the textview in which score will be displayed
         scored = (TextView) findViewById(R.id.score);
         lifes = (TextView) findViewById(R.id.life);
@@ -121,6 +122,14 @@ public class QuestionActivity extends Activity {
             }
         });
 
+        buttonRetry.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), InGameBack.class);
+                intent.putExtra("level", level);
+                startActivity(intent);
+            }
+        });
 
     }
     protected void onStart(){
@@ -213,12 +222,10 @@ public class QuestionActivity extends Activity {
 
         questionID++;
     }
-
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if ((keyCode == KeyEvent.KEYCODE_BACK)) {
-            Log.d("Taggg", "==== back button Clicked");
-            Intent intent = new Intent(this, InGameBack.class);
+            Intent intent = new Intent(this,Back.class);
             startActivity(intent);
             return true;
         }

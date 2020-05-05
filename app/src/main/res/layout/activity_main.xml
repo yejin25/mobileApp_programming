@@ -178,16 +178,30 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:orientation="vertical">
+                android:gravity="center_horizontal"
+                android:orientation="horizontal"
+                android:layout_weight="0.20">
 
                 <Button
-                    android:id="@+id/buttonpass"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/btnretry"
+                    android:layout_width="150dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:background="#fff"
                     android:gravity="center"
-                    android:text="pass"
+                    android:text="RETRY"
+                    android:layout_marginRight="10dp"
+                    />
+                    />
+                <Button
+                    android:id="@+id/buttonpass"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:background="#fff"
+                    android:gravity="center"
+                    android:text="PASS"
+
                     />
             </LinearLayout>
         </LinearLayout>
