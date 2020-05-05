@@ -18,6 +18,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -57,7 +58,7 @@ public class QuestionActivity extends Activity {
             questionList = db.getAllHardQuestions();
         }
         long seed = System.nanoTime();
-        Collections.shuffle(questionList, new Random(seed));    //순서 랜
+        Collections.shuffle(questionList, new Random(seed));    //순서 랜덤
         score = 0;
         currentQ = questionList.get(questionID); // the current question
 
@@ -113,7 +114,7 @@ public class QuestionActivity extends Activity {
         buttonpass.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {                //Pass Item Button
-                //Plus score
+
                 scored.setText("Score : " + score);
                 currentQ = questionList.get(questionID);        //The selection changes when you press the button.
                 setQuestionView();
@@ -212,6 +213,18 @@ public class QuestionActivity extends Activity {
 
         questionID++;
     }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if ((keyCode == KeyEvent.KEYCODE_BACK)) {
+            Log.d("Taggg", "==== back button Clicked");
+            Intent intent = new Intent(this, InGameBack.class);
+            startActivity(intent);
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
 
 
 

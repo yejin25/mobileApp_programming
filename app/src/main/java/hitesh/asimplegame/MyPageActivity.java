@@ -31,10 +31,8 @@ public class MyPageActivity extends Activity {
     private static int hardHighest = 0;
     private static int sum = 0;
     private static int hardSum = 0;
-    private static int avg = 0;
     private static int count = 0;
     private static int hardCount = 0;
-    private static int total = 0;
 
     private FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
     private DatabaseReference easyDatabaseRef = firebaseDatabase.getReference("easy");

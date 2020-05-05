@@ -35,6 +35,8 @@
         <activity android:name=".MyPageActivity"
             android:theme="@android:style/Theme.Dialog"/>
         <activity android:name=".RankingActivity"/>
+        <activity android:name=".InGameBack"
+            android:theme="@android:style/Theme.Dialog"/>
     </application>
     <uses-permission android:name="android.permission.INTERNET"/>
 </manifest>
